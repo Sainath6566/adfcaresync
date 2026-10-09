@@ -48,6 +48,7 @@
 						"value": "@activity('ReadTableDetails').output.value",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "IngestInner",
@@ -139,7 +140,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "UPDATE ctrl.audit_log\nSET end_time_time = SYSUTCDATETIME(), status = 'FAILED'\nWHERE adf_run_id = '@{pipeline().parameters.adf_run_id}' AND table_id = @{item().table_id}",
+											"value": "UPDATE ctrl.audit_log\nSET end_time = SYSUTCDATETIME(), status = 'FAILED'\nWHERE adf_run_id = '@{pipeline().parameters.adf_run_id}' AND table_id = @{item().table_id}",
 											"type": "Expression"
 										}
 									}
