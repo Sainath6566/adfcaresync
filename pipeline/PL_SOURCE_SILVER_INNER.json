@@ -390,42 +390,30 @@
 									"userProperties": [],
 									"typeProperties": {
 										"source": {
-											"type": "DelimitedTextSource",
+											"type": "BinarySource",
 											"storeSettings": {
 												"type": "AzureBlobFSReadSettings",
 												"recursive": false,
 												"modifiedDatetimeStart": {
 													"value": "@variables('WatermarkValue')",
 													"type": "Expression"
-												},
-												"enablePartitionDiscovery": false
+												}
 											},
 											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
+												"type": "BinaryReadSettings"
 											}
 										},
 										"sink": {
-											"type": "ParquetSink",
+											"type": "BinarySink",
 											"storeSettings": {
 												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "ParquetWriteSettings"
 											}
 										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
+										"enableStaging": false
 									},
 									"inputs": [
 										{
-											"referenceName": "DS_Source",
+											"referenceName": "DS_BinaryADLS",
 											"type": "DatasetReference",
 											"parameters": {
 												"container": "source",
@@ -438,12 +426,12 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DS_ADLS",
+											"referenceName": "DS_BinaryADLS",
 											"type": "DatasetReference",
 											"parameters": {
 												"container": "landing",
 												"folder": {
-													"value": "@concat(\n    activity('ReadTableDetails').output.firstRow.source_system,\n    '/',\n    activity('ReadTableDetails').output.firstRow.source_table_name,\n    '/',\n    variables('StartTime')\n)",
+													"value": "@concat(\n      activity('ReadTableDetails').output.firstRow.source_system,\n      '/',\n      activity('ReadTableDetails').output.firstRow.source_table_name,\n      '/',\n      variables('WatermarkValue')\n)",
 													"type": "Expression"
 												}
 											}
