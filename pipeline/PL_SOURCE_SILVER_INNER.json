@@ -390,7 +390,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"source": {
-											"type": "BinarySource",
+											"type": "DelimitedTextSource",
 											"storeSettings": {
 												"type": "AzureBlobFSReadSettings",
 												"recursive": false,
@@ -398,10 +398,10 @@
 													"value": "@variables('WatermarkValue')",
 													"type": "Expression"
 												},
-												"deleteFilesAfterCompletion": false
+												"enablePartitionDiscovery": false
 											},
 											"formatSettings": {
-												"type": "BinaryReadSettings"
+												"type": "DelimitedTextReadSettings"
 											}
 										},
 										"sink": {
@@ -413,16 +413,24 @@
 												"type": "ParquetWriteSettings"
 											}
 										},
-										"enableStaging": false
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
 									},
 									"inputs": [
 										{
-											"referenceName": "DS_BinaryADLS",
+											"referenceName": "DS_Source",
 											"type": "DatasetReference",
 											"parameters": {
 												"container": "source",
 												"folder": {
-													"value": "@activity('ReadTableDetails').output.firstRow.source_path",
+													"value": "@concat(\n    activity('ReadTableDetails').output.firstRow.source_system,\n    '/',\n    activity('ReadTableDetails').output.firstRow.source_table_name,\n    '/',\n    variables('StartTime')\n)",
 													"type": "Expression"
 												}
 											}
