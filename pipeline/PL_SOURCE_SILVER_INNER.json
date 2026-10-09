@@ -377,7 +377,7 @@
 							"value": "adls_csv",
 							"activities": [
 								{
-									"name": "Copy data1",
+									"name": "IngestsourceCSVToLanding",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -430,7 +430,7 @@
 											"parameters": {
 												"container": "source",
 												"folder": {
-													"value": "@concat(\n    activity('ReadTableDetails').output.firstRow.source_system,\n    '/',\n    activity('ReadTableDetails').output.firstRow.source_table_name,\n    '/',\n    variables('StartTime')\n)",
+													"value": "@activity('ReadTableDetails').output.firstRow.source_path",
 													"type": "Expression"
 												}
 											}
